@@ -5,6 +5,7 @@ import {
   HeartIcon,
   MagnifyingGlassIcon,
   ListBulletIcon,
+  XMarkIcon,
 } from '@heroicons/react/24/outline';
 import useStore from '@/store/useStore';
 
@@ -26,60 +27,77 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
 
   return (
     <div
-      className={`${
-        isOpen ? 'w-64' : 'w-20'
-      } bg-white dark:bg-gray-800 h-full transition-all duration-300 ease-in-out flex flex-col`}
+      className={`
+        bg-white dark:bg-gray-800 h-full flex flex-col
+        w-[280px] md:w-[240px] lg:w-[280px]
+        transition-all duration-300 ease-in-out
+      `}
     >
-      {/* Logo */}
-      <div className="p-4">
+      {/* Logo and close button */}
+      <div className="flex items-center justify-between p-4">
         <Link href="/" className="flex items-center space-x-2">
           <span className="text-xl font-bold text-gray-800 dark:text-white">
-            {isOpen ? 'Harmonia🎵' : 'H🎵'}
+            Harmonia🎵
           </span>
         </Link>
+        <button
+          onClick={() => setIsOpen(false)}
+          className="md:hidden p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+        >
+          <XMarkIcon className="h-6 w-6" />
+        </button>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1">
-        <ul className="space-y-1 px-2">
+      <nav className="flex-1 overflow-y-auto">
+        <ul className="space-y-1 px-3">
           {navigation.map((item) => (
             <li key={item.name}>
               <Link
                 href={item.href}
-                className={`flex items-center px-2 py-2 text-sm font-medium rounded-lg ${
-                  pathname === item.href
-                    ? 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white'
-                    : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-                }`}
+                className={`
+                  flex items-center px-3 py-2 text-sm font-medium rounded-lg
+                  transition-colors duration-150 ease-in-out
+                  ${
+                    pathname === item.href
+                      ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400'
+                      : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                  }
+                `}
+                onClick={() => setIsOpen(false)}
               >
-                <item.icon className="h-6 w-6" />
-                {isOpen && <span className="ml-3">{item.name}</span>}
+                <item.icon className="h-5 w-5 mr-3" />
+                <span>{item.name}</span>
               </Link>
             </li>
           ))}
         </ul>
-      </nav>
 
-      {/* Playlists */}
-      {isOpen && (
-        <div className="p-4 border-t border-gray-200 dark:border-gray-700">
-          <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400">
+        {/* Playlists Section */}
+        <div className="mt-8">
+          <h3 className="px-6 text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
             Your Playlists
           </h3>
-          <ul className="mt-2 space-y-1">
+          <ul className="mt-3 px-3 space-y-1">
             {playlists.map((playlist) => (
               <li key={playlist.id}>
                 <Link
                   href={`/playlist/${playlist.id}`}
-                  className="block px-2 py-1 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"
+                  className="flex items-center px-3 py-2 text-sm font-medium rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  onClick={() => setIsOpen(false)}
                 >
-                  {playlist.name}
+                  <span className="truncate">{playlist.name}</span>
                 </Link>
               </li>
             ))}
+            {playlists.length === 0 && (
+              <li className="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">
+                No playlists yet
+              </li>
+            )}
           </ul>
         </div>
-      )}
+      </nav>
     </div>
   );
 };

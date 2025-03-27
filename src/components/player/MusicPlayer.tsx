@@ -123,20 +123,20 @@ const MusicPlayer = () => {
   if (!currentSong) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 p-4">
-      <div className="max-w-7xl mx-auto flex items-center justify-between">
+    <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 p-2 sm:p-4">
+      <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center gap-4 sm:gap-0 sm:justify-between">
         {/* Song Info */}
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-4 w-full sm:w-auto justify-center sm:justify-start">
           <img
             src={currentSong.thumbnail}
             alt={currentSong.title}
-            className="h-14 w-14 rounded-lg object-cover"
+            className="h-12 w-12 sm:h-14 sm:w-14 rounded-lg object-cover"
           />
-          <div>
-            <h3 className="text-sm font-medium text-gray-900 dark:text-white">
+          <div className="max-w-[200px] sm:max-w-none">
+            <h3 className="text-sm font-medium text-gray-900 dark:text-white truncate">
               {currentSong.title}
             </h3>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
+            <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
               {currentSong.artist}
             </p>
           </div>
@@ -153,34 +153,34 @@ const MusicPlayer = () => {
         </div>
 
         {/* Player Controls */}
-        <div className="flex flex-col items-center space-y-2 flex-1 max-w-2xl mx-8">
+        <div className="flex flex-col items-center space-y-2 w-full sm:flex-1 sm:max-w-2xl sm:mx-8">
           <div className="flex items-center space-x-4">
             <button
               onClick={handlePreviousSong}
               className="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
             >
-              <BackwardIcon className="h-6 w-6" />
+              <BackwardIcon className="h-5 w-5 sm:h-6 sm:w-6" />
             </button>
             <button
               onClick={handlePlayPause}
-              className="p-3 bg-blue-500 rounded-full text-white hover:bg-blue-600"
+              className="p-2 sm:p-3 bg-blue-500 rounded-full text-white hover:bg-blue-600"
             >
               {isPlaying ? (
-                <PauseIcon className="h-6 w-6" />
+                <PauseIcon className="h-5 w-5 sm:h-6 sm:w-6" />
               ) : (
-                <PlayIcon className="h-6 w-6" />
+                <PlayIcon className="h-5 w-5 sm:h-6 sm:w-6" />
               )}
             </button>
             <button
               onClick={handleNextSong}
               className="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
             >
-              <ForwardIcon className="h-6 w-6" />
+              <ForwardIcon className="h-5 w-5 sm:h-6 sm:w-6" />
             </button>
           </div>
 
-          <div className="w-full flex items-center space-x-2 text-sm">
-            <span className="text-gray-500 dark:text-gray-400 w-12 text-right">
+          <div className="w-full flex items-center space-x-2 text-xs sm:text-sm">
+            <span className="text-gray-500 dark:text-gray-400 w-8 sm:w-12 text-right">
               {formatTime(duration * played)}
             </span>
             <input
@@ -194,14 +194,14 @@ const MusicPlayer = () => {
               onMouseUp={handleSeekMouseUp}
               className="flex-1 h-1 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer"
             />
-            <span className="text-gray-500 dark:text-gray-400 w-12">
+            <span className="text-gray-500 dark:text-gray-400 w-8 sm:w-12">
               {formatTime(duration)}
             </span>
           </div>
         </div>
 
-        {/* Volume Control */}
-        <div className="flex items-center space-x-2">
+        {/* Volume Control - Hidden on mobile */}
+        <div className="hidden sm:flex items-center space-x-2">
           <button
             onClick={toggleMute}
             className="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
